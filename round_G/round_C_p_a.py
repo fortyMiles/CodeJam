@@ -1,6 +1,7 @@
 from functools import lru_cache
 from utilities import process_input
 from utilities import small_input_validation
+from icecream import ic
 
 
 def reminder(m, n): return m % n
@@ -23,9 +24,15 @@ def _a_N_frac(a, n, p):
 
 def large_a_n_frac(a, n, p):
     if a % p == 0: return 0
-    elif n == 1: return a % p
-    else:
-        return (pow(a, n) * large_a_n_frac(a, n-1, p)) % p
+
+    res = 1
+
+    for i in range(1, n+1):
+        if i == 1: res = a % p
+        else:
+            res = pow(res, i, p)
+
+    return res
 
 
 def a_N_frac(a, n, p):
@@ -43,8 +50,9 @@ assert a_N_frac(2, 1, 2) == 0
 assert a_N_frac(3, 3, 2) == 1
 
 if __name__ == '__main__':
-    file_n = 'round_C/data/A-small-practice.in'
-    # file_n = 'round_C/data/A-large-practice.in'
-    result = 'round_C/small_output.txt'
-    # process_input(main_f=large_a_n_frac, input_file=file_n)
-    small_input_validation(a_N_frac, input_file=file_n, result_file=result)
+    # file_n = 'data/A-small-practice.in'
+    file_n = 'data/A-large-practice.in'
+    # result = 'small_output.txt'
+    process_input(main_f=large_a_n_frac, input_file=file_n)
+    # small_input_validation(a_N_frac, input_file=file_n, result_file=result)
+
